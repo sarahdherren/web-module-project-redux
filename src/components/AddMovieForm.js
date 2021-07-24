@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { uuid } from 'uuidv4'
 import { addMovie } from './../actions/movieActions';
 import { connect } from 'react-redux';
+
 
 import { Link, useHistory } from 'react-router-dom';
 
@@ -8,6 +10,7 @@ const AddMovieForm = (props) => {
     const { push } = useHistory();
 
     const [movie, setMovie] = useState({
+        id: uuid(),
         title: "",
         director: "",
         genre: "",
@@ -23,10 +26,15 @@ const AddMovieForm = (props) => {
     }
 
     const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(movie)
+        props.addMovie(movie)
+        push('/movies');
     }
 
     const { title, director, genre, metascore, description } = movie;
-    return(<div className="col">
+    return(
+        <div className="col">
         <div className="modal-dialog">
             <div className="modal-content">
                 <form onSubmit={handleSubmit}>
@@ -67,4 +75,10 @@ const AddMovieForm = (props) => {
     </div>);
 }
 
-export default AddMovieForm;
+const MapStateToProps = (state) => {
+    return {
+    movies: state.movieReducer.movies
+    }
+}
+
+export default connect(MapStateToProps, {addMovie})(AddMovieForm);
