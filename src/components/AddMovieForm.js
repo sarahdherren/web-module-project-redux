@@ -10,7 +10,7 @@ const AddMovieForm = (props) => {
     const { push } = useHistory();
 
     const [movie, setMovie] = useState({
-        id: uuid(),
+        id: new Date().getUTCMilliseconds(),
         title: "",
         director: "",
         genre: "",
@@ -27,7 +27,6 @@ const AddMovieForm = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(movie)
         props.addMovie(movie)
         push('/movies');
     }

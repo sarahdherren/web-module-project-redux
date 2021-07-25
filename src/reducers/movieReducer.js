@@ -7,17 +7,23 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-    console.log(state)
+    
     switch(action.type) {
         case DELETE_MOVIE:
             return {
-                movies: state.movies.filter(item=>(action.payload !== item.id))
+                ...state,
+                movies: state.movies.filter(item=>(item.id !== action.payload.id ))
             }
         case ADD_MOVIE:
+            const newMovie = {
+                ...action.payload,
+            }
+            console.log(newMovie)
             return {
                     ...state,
-                    movies: [...state.movies, action.payload]
+                    movies: [...state.movies, newMovie]
             }
+           
         default:
             return state;
     }
